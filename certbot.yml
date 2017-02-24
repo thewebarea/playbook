@@ -1,6 +1,16 @@
-- name: Update repositories cache
-  apt:
-    name: certbot
-    update_cache: yes
-    default_release: jessie-backports
+---
+
+- hosts: "{{ hosts|default('localhost') }}"
+  tasks:
+    - name: Update repositories cache
+      apt_repository:
+        repo: "deb http://http.debian.net/debian jessie-backports main"
+        state: present
+        update_cache: yes
+
+    - name: a
+      apt:
+        name: certbot
+#        update_cache: yes
+        default_release: jessie-backports
 
