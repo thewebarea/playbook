@@ -7,7 +7,9 @@
         repo: "deb http://http.debian.net/debian jessie-backports main"
         state: present
         update_cache: yes
-
+    - name: apache2
+      apt:
+        name: apache2
     - name: a
       apt:
         name: certbot

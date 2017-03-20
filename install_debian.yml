@@ -1,0 +1,23 @@
+---
+
+- hosts: "*"
+  remote_user: ntaxa
+  become: no
+  tasks:
+    - name: Copy common ssh key
+      become: yes
+      become_user: root
+      become_method: su
+      file: 
+        path: /root/.ssh1/
+        state: directory
+        mode: 0700
+    - name: download key
+      become: yes
+      become_user: root
+      become_method: su
+      get_url:
+        url: https://raw.githubusercontent.com/kakabomba/keys/master/common_key_rsa.pub
+        dest: /root/.ssh/authorized_keys 
+        mode: 0400
+
