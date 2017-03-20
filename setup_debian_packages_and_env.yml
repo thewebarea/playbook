@@ -4,6 +4,9 @@
   remote_user: root
   become: no
   tasks:
+    - name: Usage
+      debug:
+        msg: "ansible-playbook -s setup_debian_packages_and_env.yml -i '172.16.0.100,'"
     - name: Update apt cache
       apt:
         update_cache: yes
@@ -34,7 +37,5 @@
         url: https://raw.githubusercontent.com/kakabomba/keys/master/vimrc
         dest: /etc/vim/vimrc
         mode: 0644
-    - hostname:
-        name: "{{ hostname }}"
 
 
