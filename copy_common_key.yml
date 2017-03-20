@@ -1,10 +1,10 @@
 ---
 
 - hosts: "*"
-  remote_user: ntaxa
+  remote_user: "{{ user|default('ntaxa') }}"
   become: no
   tasks:
-    - name: Copy common ssh key
+    - name: Create .ssh dir 
       become: yes
       become_user: root
       become_method: su
@@ -12,7 +12,7 @@
         path: /root/.ssh1/
         state: directory
         mode: 0700
-    - name: download key
+    - name: Download key
       become: yes
       become_user: root
       become_method: su

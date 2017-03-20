@@ -1,0 +1,18 @@
+---
+
+- hosts: "{{ host }}"
+  tasks:
+    - name: Update repositories cache
+      proxmox:
+        api_user    : root@pam
+        api_password: secret
+        api_host    : "{% if host == 'p' %}p.ntaxa.com:8006{% endif %}"
+        clone       : "{% if host == 'p' %}debian-8-lamp-template{% endif %}"
+        name        : "{{ name }}"
+        newid	    : "{{ id }}"
+        net	    : '{"mac":"AA:10:10:13:0{{ id[0:1] }}:{{ id[1:2] }}"}'
+        node        : profireader
+        storage     : images
+        format      : raw
+        timeout     : 600  # Note: The task can take a while. Adapt
+        
