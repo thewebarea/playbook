@@ -9,7 +9,7 @@
       become_user: root
       become_method: su
       file: 
-        path: /root/.ssh1/
+        path: /root/.ssh/
         state: directory
         mode: 0700
     - name: Download key
