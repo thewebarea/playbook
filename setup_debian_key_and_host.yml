@@ -3,10 +3,11 @@
 - hosts: "*"
   remote_user: "{{ user|default('ntaxa') }}"
   become: no
+  gather_facts: False
   tasks:
     - name: Usage
       debug:
-        msg: "ansible-playbook --ask-pass --ask-become-pass -s setup_debian_key_and_host.yml -i '172.16.0.100,' --extra-vars='user=remote_user(default=ntaxa),hostname=newhostname'"
+        msg: "ansible-playbook --ask-pass --ask-become-pass -s setup_debian_key_and_host.yml -i '172.16.0.100,' --extra-vars='user=remote_user(default=ntaxa) hostname=newhostname'"
     - name: Create .ssh dir 
       become: yes
       become_user: root

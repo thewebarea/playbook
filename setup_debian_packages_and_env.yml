@@ -25,17 +25,20 @@
         - curl
         - bzip2
         - pv
+        - software-properties-common
+        - tcpdump
     - name: Install oh-my-zhs (best shell needs braces)
       shell: curl -L http://install.ohmyz.sh | sh
     - name: Download .zshrc file
       get_url:
         url: https://raw.githubusercontent.com/kakabomba/keys/master/.zshrc
         dest: /root/.zshrc
-        mode: 0644 
+        mode: 0644
+        force: yes 
     - name: Download vimrc file
       get_url:
         url: https://raw.githubusercontent.com/kakabomba/keys/master/vimrc
         dest: /etc/vim/vimrc
         mode: 0644
-
+        force: yes
 
