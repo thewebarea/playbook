@@ -1,6 +1,6 @@
 ---
 
-- hosts: "*"
+- hosts: "{{ hosts|default('*') }}"
   remote_user: root
   become: no
   tasks:
@@ -34,7 +34,11 @@
         url: https://raw.githubusercontent.com/kakabomba/keys/master/.zshrc
         dest: /root/.zshrc
         mode: 0644
-        force: yes 
+        force: yes
+    - name: remove .sh file from root directory
+      file:
+        dest: /root/.zshrc
+        state: absent
     - name: Download vimrc file
       get_url:
         url: https://raw.githubusercontent.com/kakabomba/keys/master/vimrc

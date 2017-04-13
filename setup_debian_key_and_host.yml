@@ -1,13 +1,13 @@
 ---
 
-- hosts: "*"
+- hosts: "{{ hosts|default('*') }}"
   remote_user: "{{ user|default('ntaxa') }}"
   become: no
   gather_facts: False
   tasks:
     - name: Usage
       debug:
-        msg: "ansible-playbook --ask-pass --ask-become-pass -s setup_debian_key_and_host.yml -i '172.16.0.100,' --extra-vars='user=remote_user(default=ntaxa) hostname=newhostname'"
+        msg: "ansible-playbook --ask-pass --ask-become-pass -s setup_debian_key_and_host.yml -i '172.16.0.100,' --extra-vars='host=host(default=*) user=remote_user(default=ntaxa) hostname=newhostname'"
     - name: Create .ssh dir 
       become: yes
       become_user: root
@@ -24,6 +24,7 @@
         url: https://raw.githubusercontent.com/kakabomba/keys/master/common_key_rsa.pub
         dest: /root/.ssh/authorized_keys 
         mode: 0400
+        force: yes
     - hostname:
         name: "{{ hostname }}"
       become: yes
