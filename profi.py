@@ -229,7 +229,7 @@ def main_list(options, config_path):
             import re
             results['_meta']['hostvars'][vm]['ansible_host'] = re.sub(r'https?://([a-zA-Z.]+)(:[0-9]*)?/?', r'\1', proxmox_api.options.url)
             results['_meta']['hostvars'][vm]['ansible_port'] = '22{}'.format(vmid)
-            results['_meta']['hostvars'][vm]['ansible_user'] = 'root'
+            # results['_meta']['hostvars'][vm]['ansible_user'] = 'root'
             try:
                 type = results['_meta']['hostvars'][vm]['proxmox_type']
             except KeyError:

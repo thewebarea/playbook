@@ -1,0 +1,17 @@
+---
+
+
+- hosts: "{{ hosts|default('*') }}"
+  gather_facts: False
+  remote_user: root
+  tasks:
+    - name: set hostname
+      hostname:
+        name: ansible_hostname
+    - name: "replace in /etc/hosts"
+      replace:
+        path: /etc/hosts
+        regexp: '^(\s*)127\.0\.1\.1(\s+.*)?$'
+        replace: '127.0.1.1 {{ ansible_hostname }}'
+        backup: yes
+
