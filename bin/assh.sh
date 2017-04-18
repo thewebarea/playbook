@@ -1,13 +1,13 @@
 #!/bin/bash
 
+cd $(dirname $(readlink $0))
+cd ..
 
 # ssh to ansible host
 
-echo "connecting to " $1
+echo "connecting to " $2 at $1
 
-inventory=$(dirname $(readlink $0))
-
-varansible=$(ansible -i $inventory/$1.py -m debug -a "var=hostvars['$2']" $2)
+varansible=$(ansible -i inventories/$1.py -m debug -a "var=hostvars['$2']" $2)
 
 #echo $varansible
 

@@ -1,0 +1,39 @@
+- name: Update apt cache
+  apt:
+    update_cache: yes
+- name: Install common packages
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - vim
+    - zsh
+    - mc
+    - ssh
+    - git
+    - build-essential
+    - sudo
+    - nmap
+    - curl
+    - bzip2
+    - pv
+    - software-properties-common
+    - tcpdump
+    - links
+- name: Install oh-my-zhs (best shell needs braces)
+  shell: curl -L http://install.ohmyz.sh | sh
+- name: Download .zshrc file
+  get_url:
+    url: https://raw.githubusercontent.com/kakabomba/keys/master/.zshrc
+    dest: /etc/zsh/zshrc
+    mode: 0644
+    force: yes
+- name: remove .sh file from root directory
+  file:
+    dest: /root/.zshrc
+    state: absent
+- name: Download vimrc file
+  get_url:
+    url: https://raw.githubusercontent.com/kakabomba/keys/master/vimrc
+    dest: /etc/vim/vimrc
+    mode: 0644
+    force: yes

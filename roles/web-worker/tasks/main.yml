@@ -1,0 +1,6 @@
+---
+
+- name: copy /usr/local/bin
+  copy:
+    src: "{{role_path}}/templates/scripts/"
+    dest: "/"
