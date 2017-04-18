@@ -21,19 +21,18 @@
     - links
 - name: Install oh-my-zhs (best shell needs braces)
   shell: curl -L http://install.ohmyz.sh | sh
-- name: Download .zshrc file
-  get_url:
-    url: https://raw.githubusercontent.com/kakabomba/keys/master/.zshrc
-    dest: /etc/zsh/zshrc
-    mode: 0644
-    force: yes
-- name: remove .sh file from root directory
+- name: copy scripts
+  copy:
+    src: "{{role_path}}/templates/scripts/"
+    dest: "/"
+- name: remove .zshrc file from root directory
   file:
     dest: /root/.zshrc
     state: absent
-- name: Download vimrc file
-  get_url:
-    url: https://raw.githubusercontent.com/kakabomba/keys/master/vimrc
-    dest: /etc/vim/vimrc
-    mode: 0644
-    force: yes
+- name: Copy files .oh-my-zhs
+  shell: "if [ ! -d /etc/zsh/.oh-my-zsh ]; then mv /root/.oh-my-zsh /etc/zsh/; fi"
+- name: install zsh-syntax-highlighting
+  git:
+    repo: 'git://github.com/zsh-users/zsh-syntax-highlighting.git'
+    accept_hostkey: true
+    dest: /etc/zsh/zsh-syntax-highlighting

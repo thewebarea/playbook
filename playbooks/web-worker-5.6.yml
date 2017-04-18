@@ -4,5 +4,6 @@
   remote_user: root
   become: no
   roles:
-    - php7.0
+    - common
+    - php5.6
     - web-worker
