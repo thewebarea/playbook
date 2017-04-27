@@ -1,6 +1,7 @@
 - name: Update apt cache
   apt:
     update_cache: yes
+
 - name: Install common packages
   apt:
     name: "{{ item }}"
@@ -19,18 +20,25 @@
     - software-properties-common
     - tcpdump
     - links
+    - debconf-utils
+
 - name: Install oh-my-zhs (best shell needs braces)
   shell: curl -L http://install.ohmyz.sh | sh
+
 - name: copy scripts
   copy:
     src: "{{role_path}}/templates/scripts/"
+    mode: preserve
     dest: "/"
+
 - name: remove .zshrc file from root directory
   file:
     dest: /root/.zshrc
     state: absent
+
 - name: Copy files .oh-my-zhs
   shell: "if [ ! -d /etc/zsh/.oh-my-zsh ]; then mv /root/.oh-my-zsh /etc/zsh/; fi"
+
 - name: install zsh-syntax-highlighting
   git:
     repo: 'git://github.com/zsh-users/zsh-syntax-highlighting.git'

@@ -4,7 +4,7 @@ hostname=`hostname`
 domain=$(cat /etc/resolv.conf | grep 'domain ' | sed -e's/^[[:space:]]*domain[[:space:]]\+//')
 echo ''
 echo ''
-myip=$(ifconfig | grep 'inet addr:10.10.' | sed "s/.*addr:10.10.[[:digit:]]{2,2}.//; s/  Bcast.*//")
+myip=$(ifconfig | grep 'inet addr:10.10.' | sed "s/.*addr:10.10.[[:digit:]]\{1,3\}.//; s/  Bcast.*//")
 
 echo "--   ssh	: ssh $hostname.$domain.ntaxa.com -p 22$myip"
 echo "--   ftp	: ftp $hostname.$domain.ntaxa.com 21$myip"
