@@ -1,6 +1,7 @@
 - name: Update apt cache
   apt:
     update_cache: yes
+  ignore_errors: yes
 
 - name: Install common packages
   apt:
@@ -39,8 +40,29 @@
 - name: Copy files .oh-my-zhs
   shell: "if [ ! -d /etc/zsh/.oh-my-zsh ]; then mv /root/.oh-my-zsh /etc/zsh/; fi"
 
-- name: install zsh-syntax-highlighting
+- name: install zsh-syntax-highlighting (best shell braces also need braces)
   git:
     repo: 'git://github.com/zsh-users/zsh-syntax-highlighting.git'
     accept_hostkey: true
     dest: /etc/zsh/zsh-syntax-highlighting
+
+- name: "change zsh theme"
+  lineinfile:
+    path: /etc/zsh/zshrc
+    regexp: '^\s*export ZSH_THEME="[^"]+".*'
+    line: 'export ZSH_THEME="{{ zsh.theme }}"'
+  when: zsh is defined and zsh.theme is defined
+
+- name: "change zsh prompt"
+  lineinfile:
+    path: /etc/zsh/zshrc
+    regexp: "^\\s*PROMPT='.*"
+    line: "PROMPT='{{ zsh.prompt }}'"
+  when: zsh is defined and zsh.prompt is defined and zsh.prompt
+
+- name: "comment zsh prompt"
+  lineinfile:
+    path: /etc/zsh/zshrc
+    regexp: "^\\s*PROMPT='.*"
+    state: absent
+  when: zsh is defined and zsh.prompt is defined and not zsh.prompt

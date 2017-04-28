@@ -6,22 +6,12 @@
   tasks:
     - name: Usage
       debug:
-        msg: "ansible-playbook --ask-pass --ask-become-pass -s key.yml -i '172.16.0.100,' --extra-vars='host=host(default=*) user=remote_user(default=ntaxa)'"
-    - name: Create .ssh dir 
-      become: yes
-      become_user: root
-      become_method: su
-      file: 
-        path: /root/.ssh/
-        state: directory
-        mode: 0700
+        msg: "ansible-playbook --ask-pass --ask-become-pass -s key.yml -i '172.16.0.100:port,' --extra-vars='host=host(default=*) user=remote_user(default=ntaxa)'"
     - name: Download key
       become: yes
       become_user: root
       become_method: su
-      get_url:
-        url: https://raw.githubusercontent.com/kakabomba/keys/master/common_key_rsa.pub
-        dest: /root/.ssh/authorized_keys 
-        mode: 0400
-        force: yes
-
+      authorized_key:
+        user: root
+        state: present
+        key: https://raw.githubusercontent.com/kakabomba/keys/master/common_key_rsa.pub

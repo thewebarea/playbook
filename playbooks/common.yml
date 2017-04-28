@@ -3,6 +3,5 @@
 - hosts: "{{ hosts|default('*') }}"
   remote_user: root
   become: no
-  tasks:
-
-
+  roles:
+    - common
