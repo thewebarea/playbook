@@ -1,9 +1,0 @@
----
-
-- hosts: "{{ hosts|default('*') }}"
-  remote_user: root
-  become: no
-  roles:
-    - common
-    - php7.0
-    - web-worker

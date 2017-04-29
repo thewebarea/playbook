@@ -5,5 +5,5 @@
   become: no
   roles:
     - common
-    - php5.6
+    - php
     - web-worker
