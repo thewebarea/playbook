@@ -22,6 +22,7 @@
     - tcpdump
     - links
     - debconf-utils
+    - python-pip
 
 - name: Install oh-my-zhs (best shell needs braces)
   shell: curl -L http://install.ohmyz.sh | sh

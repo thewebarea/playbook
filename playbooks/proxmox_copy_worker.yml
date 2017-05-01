@@ -1,18 +1,33 @@
 ---
 
 - hosts: "{{ host }}"
+  remote_user: root
   tasks:
     - name: Update repositories cache
-      proxmox:
-        api_user    : root@pam
-        api_password: secret
-        api_host    : "{% if host == 'p' %}p.ntaxa.com:8006{% endif %}"
-        clone       : "{% if host == 'p' %}debian-8-lamp-template{% endif %}"
-        name        : "{{ name }}"
-        newid	    : "{{ id }}"
-        net	    : '{"mac":"AA:10:10:13:0{{ id[0:1] }}:{{ id[1:2] }}"}'
+      debug:
+        msg: "ansible-playbook -s /home/oles/playbook/proxmox_copy_worker.yml --extra-vars \"host=p \""
+    - name: test proxmox connection
+      proxmox_kvm:
+        api_user    : 'root@pam'
+        api_password: ''
+        api_host    : "p.ntaxa.com"
+        name        : dns
         node        : profireader
-        storage     : images
-        format      : raw
-        timeout     : 600  # Note: The task can take a while. Adapt
-        
+        vmid        : 100
+        state       : current
+#    - name: Update repositories cache
+#      proxmox_kvm:
+#        api_user    : root@pam
+#        api_password: secret
+#        api_host    : "p.ntaxa.com:8006"
+#        clone       : "{{ source_name|default('template-debian-8') }}"
+#        name        : "{{ target_name }}"
+#        newid	    : "{{ target_id }}"
+#        net	        : '{"mac":"FF:FF:10:10:{{target_id[0:2]}}:{{target_id[2:4]}}"}'
+#        node        : profireader
+#        storage     : images
+#        format      : raw
+#        cpu         : "{{ cpu|default('1') }}"
+#        memory      : "{{ (memory|default('0.5')|int)*1024 }}"
+#        timeout     : 6000  # Note: The task can take a while. Adapt
+#

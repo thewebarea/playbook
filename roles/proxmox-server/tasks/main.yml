@@ -1,0 +1,10 @@
+#- name: copy scripts
+#  copy:
+#    src: "{{role_path}}/templates/scripts/"
+#    mode: preserve
+#    dest: "/"
+
+- name: "Install Python packages proxmoxer requests"
+  sudo: true
+  pip: name={{ item }}
+  with_items: proxmoxer requests
