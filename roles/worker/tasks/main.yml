@@ -93,7 +93,7 @@
     name: apache2
     state: restarted
 
-- name: enable root password login
+- name: enable root login
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^PermitRootLogin\\s.*"
@@ -126,20 +126,20 @@
     login_password: "{{ password_is }}"
     target: /tmp/ftp.sql
 
-- name: enable root password login
+- name: change pure mysql user-select sql request
   lineinfile:
     path: /etc/pure-ftpd/db/mysql.conf
     regexp: "^(.*)FROM users WHERE User=(.*)$"
     line: '\1FROM users WHERE Login=\2'
     backrefs: yes
 
-- name: enable root password login
+- name: change pure mysql user
   lineinfile:
     path: /etc/pure-ftpd/db/mysql.conf
     regexp: "^MYSQLUser\\s.*$"
     line: 'MYSQLUser root'
 
-- name: enable root password login
+- name: change pure mysql password
   lineinfile:
     path: /etc/pure-ftpd/db/mysql.conf
     regexp: "^MYSQLPassword\\s.*$"

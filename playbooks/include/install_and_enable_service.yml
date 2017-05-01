@@ -4,13 +4,13 @@
   apt_key:
     url: '{{ key }}'
     state: present
-  when: key|default(None) != None
+  when: key is defined
 - name: Add repo
   apt_repository:
     repo: '{{ repo }}'
     state: present
     update_cache: yes
-  when: repo|default(None) != None
+  when: repo is defined
 - name: Install apt
   apt:
     name: '{{ name }}'
@@ -19,3 +19,4 @@
     name: '{{ service|default(name) }}'
     state: started
     enabled: yes
+  when: service is not defined or service != False

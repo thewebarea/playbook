@@ -1,0 +1,67 @@
+---
+
+- name: Install lighttpd
+  apt:
+    name: lighttpd
+
+- name: Change lighttpd port. (port 80 is taken by haproxy)
+  lineinfile:
+    path: /etc/lighttpd/lighttpd.conf
+    regexp: "^\\s*server.port\\s*=\\s*\\d+\\s*$"
+    line: 'server.port                 = 4444'
+
+- name: reload lighttpd
+  service:
+    name: lighttpd
+    state: restarted
+
+
+- name: Add haproxy repo
+  apt_repository:
+    repo: 'deb http://httpredir.debian.org/debian jessie-backports main'
+    state: present
+
+- name: Add haproxy repo
+  apt_repository:
+    repo: 'deb http://httpredir.debian.org/debian jessie-backports-sloppy main'
+    state: present
+
+- name: Add haproxy repo
+  apt_repository:
+    repo: 'deb http://haproxy.debian.net jessie-backports-1.7 main'
+    state: present
+    update_cache: yes
+
+- name: add key
+  apt_key:
+    url: https://haproxy.debian.net/bernat.debian.org.gpg
+    state: present
+
+- name: Install certbot
+  apt:
+    name: certbot
+    default_release: jessie-backports
+
+- name: Install libssl jessie-backports for haproxy
+  apt:
+    name: libssl1.0.0
+    default_release: jessie-backports
+
+- name: Install haproxy
+  apt:
+    name: haproxy
+    default_release: jessie-backports-1.7
+  register: haproxy_instalation
+
+- name: copy scripts
+  copy:
+    src: "{{role_path}}/templates/scripts/etc/haproxy/"
+    mode: preserve
+    force: yes
+    dest: "/etc/haproxy/"
+  when: haproxy_instalation.changed
+
+- name: reload haproxy
+  service:
+    name: haproxy
+    state: restarted

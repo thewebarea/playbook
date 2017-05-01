@@ -1,0 +1,1 @@
+/etc/haproxy/certs/.default

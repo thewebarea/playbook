@@ -7,8 +7,5 @@
   become: no
   roles:
     - common
-  tasks:
-    - name: haproxy
-      apt:
-        name: haproxy
-    
+    - haproxy-certbot
+
