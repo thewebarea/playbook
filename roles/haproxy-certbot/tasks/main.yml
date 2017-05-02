@@ -40,10 +40,56 @@
 - name: Install certbot
   apt:
     name: certbot
+    default_release: jessie-backports#- name: Install lighttpd
+  apt:
+    name: lighttpd
+
+- name: Change lighttpd port. (port 80 is taken by haproxy)
+  lineinfile:
+    path: /etc/lighttpd/lighttpd.conf
+    regexp: "^\\s*server.port\\s*=\\s*\\d+\\s*$"
+    line: 'server.port                 = 4444'
+
+- name: reload lighttpd
+  service:
+    name: lighttpd
+    state: restarted
+
+
+- name: Add haproxy repo
+  apt_repository:
+    repo: 'deb http://httpredir.debian.org/debian jessie-backports main'
+    state: present
+
+- name: Add haproxy repo
+  apt_repository:
+    repo: 'deb http://httpredir.debian.org/debian jessie-backports-sloppy main'
+    state: present
+
+- name: Add haproxy repo
+  apt_repository:
+    repo: 'deb http://haproxy.debian.net jessie-backports-1.7 main'
+    state: present
+    update_cache: yes
+
+- name: add key
+  apt_key:
+    url: https://haproxy.debian.net/bernat.debian.org.gpg
+    state: present
+
+- name: Install certbot
+  apt:
+    name: certbot
     default_release: jessie-backports
 
-- name: Update libssl jessie-backports for haproxy (we cant use apt becouse libssl already installed)
-  shell: "apt-get install -t jessie-backports libssl1.0.0"
+- name: get libssl1.0.0 jessie-backports version
+  shell: apt-cache policy libssl1.0.0 | grep jessie-backports -B1 | head -n1 | sed -e 's/^\s*\**\s*\(\S*\).*/\1/'
+  register: libsslinstalled
+
+- name: Update libssl for haproxy
+  apt:
+    name: "libssl1.0.0={{ libsslinstalled.stdout_lines[0] }}"
+    update_cache: yes
 
 - name: Install haproxy
   apt:
