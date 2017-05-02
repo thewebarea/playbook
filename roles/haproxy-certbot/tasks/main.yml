@@ -42,10 +42,9 @@
     name: certbot
     default_release: jessie-backports
 
-- name: Install libssl jessie-backports for haproxy
+- name: Update libssl jessie-backports for haproxy
   apt:
-    name: libssl1.0.0
-    default_release: jessie-backports
+    name: libssl1.0.0=1.0.2k-1~bpo8+1
 
 - name: Install haproxy
   apt:
