@@ -15,7 +15,6 @@
     name: lighttpd
     state: restarted
 
-
 - name: Add haproxy repo
   apt_repository:
     repo: 'deb http://httpredir.debian.org/debian jessie-backports main'
@@ -40,9 +39,7 @@
 - name: Install certbot
   apt:
     name: certbot
-    default_release: jessie-backports#- name: Install lighttpd
-  apt:
-    name: lighttpd
+    default_release: jessie-backports
 
 - name: Change lighttpd port. (port 80 is taken by haproxy)
   lineinfile:
