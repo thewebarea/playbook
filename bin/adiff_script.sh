@@ -2,13 +2,15 @@
 
 delimiter='/templates/scripts/'
 
-bp=$(realpath $3 | sed -e "s#$delimiter.*##g")
-ap=$(realpath $3 | sed -e "s#.*$delimiter##g")
+rp=$(realpath $3)
 
-if [[ "$bp$delimiter$ap" != $(realpath $3) ]]; then
-    echo "fetched script should be in $delimiter subdirectory now=$(realpath $3)"
+
+bp=$(echo $rp | sed -e "s#$delimiter.*##g")
+ap=$(echo $rp | sed -e "s#.*$delimiter##g")
+
+if [[ "$bp$delimiter$ap" != "$rp" ]]; then
+    echo "comparing script should be in $delimiter subdirectory now=$(realpath $3)"
 fi
-
 
 cd $(dirname $(readlink $0))
 cd ..
@@ -17,13 +19,14 @@ echo "fetching $ap from " $2 at $1 to "$bp$delimiter$ap"
 
 varansible=$(ansible -i inventories/$1.py -m debug -a "var=hostvars['$2']" $2)
 
-#echo $varansible
 
 varjson=$(echo $varansible | tr '\n' ' ' | sed -e 's/\s\+//g' | sed -e 's/.*|SUCCESS=>//' )
 
 
 host_port=$(echo $varjson | python3 -c "import sys, json; i=json.load(sys.stdin); l=lambda x: i[\"hostvars['$2']\"][x]; print(l('ansible_host'), l('ansible_port'))")
 
+scp -P$(echo $host_port | cut -d ' ' -f2) root@$(echo $host_port | cut -d ' ' -f1)":/$ap" /tmp/$(basename $ap)
 
-scp -P$(echo $host_port | cut -d ' ' -f2) root@$(echo $host_port | cut -d ' ' -f1)":/$ap" "$bp$delimiter$ap"
+echo "colordiff -y $rp /tmp/$(basename $ap)"
 
+colordiff --side-by-side --suppress-common-lines -W240 "$rp" "/tmp/$(basename $ap)"
