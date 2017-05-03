@@ -228,22 +228,9 @@ def main_list(options, config_path):
             vmid = results['_meta']['hostvars'][vm]['proxmox_vmid']
             import re
 
-            if vmid>=1100 and vmid<=1199:
-                results['_meta']['hostvars'][vm]['ansible_host'] = '88.99.238.11'
-                results['_meta']['hostvars'][vm]['ansible_port'] = '{}'.format(22000 + vmid - 1100)
-            elif vmid>=1200 and vmid<=1299:
-                results['_meta']['hostvars'][vm]['ansible_host'] = '88.99.238.12'
-                results['_meta']['hostvars'][vm]['ansible_port'] = '{}'.format(22000 + vmid - 1200)
-            elif vmid>=1300 and vmid<=1399:
-                results['_meta']['hostvars'][vm]['ansible_host'] = '88.99.238.13'
-                results['_meta']['hostvars'][vm]['ansible_port'] = '{}'.format(22000 + vmid - 1300)
-            elif vmid>=1400 and vmid<=1499:
-                results['_meta']['hostvars'][vm]['ansible_host'] = '88.99.238.14'
-                results['_meta']['hostvars'][vm]['ansible_port'] = '{}'.format(22000 + vmid - 1400)
-            else:
-                results['_meta']['hostvars'][vm]['ansible_host'] = re.sub(r'https?://([a-zA-Z.]+)(:[0-9]*)?/?', r'\1',
+            results['_meta']['hostvars'][vm]['ansible_host'] = re.sub(r'https?://([a-zA-Z.]+)(:[0-9]*)?/?', r'\1',
                                                                           proxmox_api.options.url)
-                results['_meta']['hostvars'][vm]['ansible_port'] = '22{}'.format(vmid)
+            results['_meta']['hostvars'][vm]['ansible_port'] = '22{}'.format(vmid)
             # results['_meta']['hostvars'][vm]['ansible_user'] = 'root'
             try:
                 type = results['_meta']['hostvars'][vm]['proxmox_type']

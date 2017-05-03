@@ -40,9 +40,6 @@
 - name: enable phpmyadmin conf
   shell: a2enconf phpmyadmin
 
-- name: enable vhost_alias
-  shell: a2enmod vhost_alias
-
 - name: change alias for phppgadmin
   lineinfile:
     path: /etc/apache2/conf-available/phppgadmin.conf
