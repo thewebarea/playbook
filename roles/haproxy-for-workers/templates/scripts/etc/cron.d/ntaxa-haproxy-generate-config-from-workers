@@ -1,0 +1,2 @@
+
+# */5 * * * * root /usr/local/bin/ntaxa-artek-vz-update-haproxy.sh >> /var/log/haproxy-aliases.log

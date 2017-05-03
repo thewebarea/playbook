@@ -1,0 +1,10 @@
+---
+
+- name: copy scripts
+  copy:
+    src: "{{role_path}}/templates/scripts/"
+    mode: preserve
+    force: yes
+    dest: "/"
+
+

@@ -6,7 +6,7 @@
   tasks:
     - name: Usage
       debug:
-        msg: "ansible-playbook --ask-pass --ask-become-pass -s key.yml -i '172.16.0.100:port,' --extra-vars='host=host(default=*) user=remote_user(default=ntaxa)'"
+        msg: "ansible-playbook --ask-pass [--ask-become-pass] -s key.yml -i '172.16.0.100:port,' --extra-vars='host=host(default=*) user=remote_user(default=ntaxa)'"
     - name: Download key
       become: yes
       become_user: root
@@ -15,3 +15,12 @@
         user: root
         state: present
         key: https://raw.githubusercontent.com/kakabomba/keys/master/common_key_rsa.pub
+      when: "{{ user|default('ntaxa') }} != 'root' }}"
+    - name: Download key
+      become: no
+      authorized_key:
+        user: root
+        state: present
+        key: https://raw.githubusercontent.com/kakabomba/keys/master/common_key_rsa.pub
+      when: "{{ user|default('ntaxa') }} == 'root' }}"
+

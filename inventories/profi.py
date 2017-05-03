@@ -225,19 +225,20 @@ def main_list(options, config_path):
         # Check only VM/containers from the current node
         for vm in node_hostvars:
 
-            vmid = results['_meta']['hostvars'][vm]['proxmox_vmid']
+            vmid = int(results['_meta']['hostvars'][vm]['proxmox_vmid'])
+
             import re
 
-            if vmid>=1100 and vmid<=1199:
+            if vmid>=1100 and vmid<1199:
                 results['_meta']['hostvars'][vm]['ansible_host'] = '88.99.238.11'
                 results['_meta']['hostvars'][vm]['ansible_port'] = '{}'.format(22000 + vmid - 1100)
-            elif vmid>=1200 and vmid<=1299:
+            elif vmid>=1200 and vmid<1299:
                 results['_meta']['hostvars'][vm]['ansible_host'] = '88.99.238.12'
                 results['_meta']['hostvars'][vm]['ansible_port'] = '{}'.format(22000 + vmid - 1200)
-            elif vmid>=1300 and vmid<=1399:
+            elif vmid>=1300 and vmid<1399:
                 results['_meta']['hostvars'][vm]['ansible_host'] = '88.99.238.13'
                 results['_meta']['hostvars'][vm]['ansible_port'] = '{}'.format(22000 + vmid - 1300)
-            elif vmid>=1400 and vmid<=1499:
+            elif vmid>=1400 and vmid<1499:
                 results['_meta']['hostvars'][vm]['ansible_host'] = '88.99.238.14'
                 results['_meta']['hostvars'][vm]['ansible_port'] = '{}'.format(22000 + vmid - 1400)
             else:

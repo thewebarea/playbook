@@ -6,6 +6,6 @@
   remote_user: root
   become: no
   roles:
-#    - common
-#    - php
-    - worker
+    - common
+    - haproxy-certbot
+    - haproxy-for-workers
