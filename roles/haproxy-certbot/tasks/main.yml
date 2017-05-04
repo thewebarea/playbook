@@ -87,7 +87,7 @@
     name: "libssl1.0.0={{ libsslinstalled.stdout_lines[0] }}"
     update_cache: yes
 
-- name: Install haproxy
+- name: install haproxy
   apt:
     name: haproxy
     default_release: jessie-backports-1.7
@@ -95,11 +95,10 @@
 
 - name: copy scripts
   copy:
-    src: "{{role_path}}/templates/scripts/etc/haproxy/"
+    src: "{{role_path}}/templates/scripts/"
+    backup: yes
     mode: preserve
-    force: yes
-    dest: "/etc/haproxy/"
-  when: haproxy_instalation.changed
+    dest: "/"
 
 - name: reload haproxy
   service:

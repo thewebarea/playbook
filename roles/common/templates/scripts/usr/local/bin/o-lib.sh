@@ -4,13 +4,13 @@ function 2lines { cat | xargs | sed -e 's/ /\n/g'; }
 
 function 2spaces { cat | xargs; }
 
-function _e { echo "$*"; logger -p local0.error "$*"; exit 1; }
+function _e { echo "$*" 1>&2; logger -p local0.error "$*"; exit 1; }
 
-function _w { echo "$*"; logger -p local0.warning "$*"; }
+function _w { echo "$*" 1>&2; logger -p local0.warning "$*"; }
 
-function _n { echo "$*"; logger -p local0.notice "$*"; }
+function _n { echo "$*" 1>&2; logger -p local0.notice "$*"; }
 
-function _d { echo "$*"; logger -p local0.debug "$*"; }
+function _d { echo "$*" 1>&2; logger -p local0.debug "$*"; }
 
 function is_dir {
   if [ ! -e "$1" ]; then
@@ -65,6 +65,14 @@ function sync_dirs {
   else
     _n "md5 differ for md5($srcdir)=$srcmd5!=md5($dstdir)=$dstmd5, syncing"
     rsync -r --force --del $srcdir/ $dstdir/
+    return 0
+  fi
+}
+
+function host_is_up {
+  if ping -c1 $1 > /dev/null 2>&1; then
+    return 1
+  else
     return 0
   fi
 }
