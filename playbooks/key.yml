@@ -15,12 +15,12 @@
         user: root
         state: present
         key: https://raw.githubusercontent.com/kakabomba/keys/master/common_key_rsa.pub
-      when: "{{ user|default('ntaxa') }} != 'root' }}"
+      when: "{{ user|default('ntaxa') != 'root' }}"
     - name: Download key
       become: no
       authorized_key:
         user: root
         state: present
         key: https://raw.githubusercontent.com/kakabomba/keys/master/common_key_rsa.pub
-      when: "{{ user|default('ntaxa') }} == 'root' }}"
+      when: "{{ user|default('ntaxa') == 'root' }}"
 

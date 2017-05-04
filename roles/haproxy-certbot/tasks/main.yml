@@ -52,13 +52,12 @@
     name: lighttpd
     state: restarted
 
-
-- name: Add haproxy repo
+- name: Add backports repo
   apt_repository:
     repo: 'deb http://httpredir.debian.org/debian jessie-backports main'
     state: present
 
-- name: Add haproxy repo
+- name: Add backports-sloppy repo
   apt_repository:
     repo: 'deb http://httpredir.debian.org/debian jessie-backports-sloppy main'
     state: present
