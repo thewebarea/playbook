@@ -76,3 +76,23 @@ function host_is_up {
     return 0
   fi
 }
+
+function is_fqdn {
+  if [[ ! $1 =~ ^(([a-zA-Z](-?[a-zA-Z0-9])*)\.)*[a-zA-Z](-?[a-zA-Z0-9])+\.[a-zA-Z]{2,}$ ]]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+#TODO complete email regexp
+function is_email {
+  if [[ ! $1 =~ @ ]]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+
+
