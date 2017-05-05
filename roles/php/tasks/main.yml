@@ -20,7 +20,7 @@
 - name: Install php 7
   apt:
     update_cache: yes
-    name: 'php7'
+    name: "php{{ php_version }}"
   when: php_version is defined and php_version[0] == '7'
 
 - name: Install php{{ php_version }} libraries
