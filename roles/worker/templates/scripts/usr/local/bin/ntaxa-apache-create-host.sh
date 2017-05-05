@@ -21,6 +21,7 @@ mkdir "$di/web/"
 mkdir "$di/log/"
 mkdir "$di/tmp/"
 mkdir "$di/config/"
+mkdir "$di/config/ssl"
 
 confd="$di/config"
 
