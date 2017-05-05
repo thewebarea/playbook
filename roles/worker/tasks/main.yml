@@ -188,7 +188,6 @@
     group: root
     owner: root
 
-
 - name: reload pureftp
   service:
     name: pure-ftpd-mysql
