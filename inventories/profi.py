@@ -304,6 +304,17 @@ def main_host(options, config_path):
         if qemu:
             return qemu.get_variables()
 
+    if proxmox_api.version().get_version() >= 4.0:
+        lxc_list = proxmox_api.node_lxc(node)
+        qemu = lxc_list.get_by_name(options.host)
+        if qemu:
+            return qemu.get_variables()
+    else:
+        openvz_list = proxmox_api.node_openvz(node)
+        qemu = openvz_list.get_by_name(options.host)
+        if qemu:
+            return qemu.get_variables()
+
     return {}
 
 

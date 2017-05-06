@@ -16,7 +16,7 @@ varjson=$(echo $varansible | tr '\n' ' ' | sed -e 's/\s\+//g' | sed -e 's/.*|SUC
 #echo $varjson
 
 host_port=$(echo $varjson | python3 -c "import sys, json; i=json.load(sys.stdin); l=lambda x: i[\"hostvars['$2']\"][x]; print(l('ansible_host'), l('ansible_port'))")
- 
+
 ssh root@$(echo $host_port | cut -d ' ' -f1) -p$(echo $host_port | cut -d ' ' -f2)
 
 #echo $variables
