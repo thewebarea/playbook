@@ -4,6 +4,8 @@ function 2lines { cat | xargs | sed -e 's/ /\n/g'; }
 
 function 2spaces { cat | xargs; }
 
+function strip_new_lines { echo "$*" | sed '/^\s*$/d'; }
+
 function _e { echo "$*" 1>&2; logger -p local0.error "$*"; exit 1; }
 
 function _w { echo "$*" 1>&2; logger -p local0.warning "$*"; }
