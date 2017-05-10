@@ -1,21 +1,21 @@
 ---
 
-- name: check php version
-  fail:
-    msg: "php_version|default('5') `{{ php_version|default('5') }}` not in ['5', '7.0', '7.1']"
-  when: php_version is defined and php_version not in ['5', '7.0', '7.1']
+#- name: check php version
+#  fail:
+#    msg: "php_version|default('5') `{{ php_version|default('5') }}` not in ['5', '7.0', '7.1']"
+#  when: php_version is defined and php_version not in ['5', '7.0', '7.1']
 
-- name: add key
-  apt_key:
-    url: 'https://www.dotdeb.org/dotdeb.gpg'
-    state: present
-  when: php_version is defined and php_version[0] == '7'
+#- name: add key
+#  apt_key:
+#    url: 'https://www.dotdeb.org/dotdeb.gpg'
+#    state: present
+#  when: php_version is defined and php_version[0] == '7'
 
-- name: Add repo
-  apt_repository:
-    repo: 'deb http://packages.dotdeb.org jessie all'
-    state: present
-  when: php_version is defined and php_version[0] == '7'
+#- name: Add repo
+#  apt_repository:
+#    repo: 'deb http://packages.dotdeb.org jessie all'
+#    state: present
+#  when: php_version is defined and php_version[0] == '7'
 
 - name: Install php 7
   apt:
