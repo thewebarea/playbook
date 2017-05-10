@@ -1,0 +1,50 @@
+---
+
+#- name: copy scripts
+#  copy:
+#    src: "{{role_path}}/templates/scripts/"
+#    mode: preserve
+#    dest: "/"
+
+- name: Install common packages
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - apache2
+    - mysql-client
+    - mysql-server
+    - phppgadmin
+    - phpmyadmin
+
+- name: enable vhost_alias
+  shell: a2enmod vhost_alias
+
+#- name: allow from foreign net
+#  lineinfile:
+#    path: /etc/apache2/conf-available/phppgadmin.conf
+#    regexp: '^Require\s'
+#    line: 'Require all granted'
+
+- name: reload apache2
+  service:
+    name: apache2
+    state: restarted
+
+- name: enable root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin\\s.*"
+    line: 'PermitRootLogin yes'
+
+- name: enable root password login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^(StrictModes.*)"
+    backrefs: yes
+    line: '# \1'
+
+- name: reload ssh
+  service:
+    name: ssh
+    state: restarted
+
